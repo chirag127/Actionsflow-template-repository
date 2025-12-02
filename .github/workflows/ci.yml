@@ -1,0 +1,58 @@
+name: CI
+
+# This workflow will do a compile, test and package, and/or deploy its Python code.
+# More information on GitHub Actions: https://help.github.com/actions
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Required for GitHub Actions to create releases
+      # releases: write 
+      # Required for GitHub Actions to publish to PyPI
+      # id-token: write 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'uv' # Use uv for caching dependencies
+
+      - name: Install Dependencies with uv
+        run: |
+          python -m "uv" pip install -U pip
+          python -m "uv" pip install --system --no-deps -e .[dev] # Install project in editable mode with dev dependencies
+
+      - name: Lint with Ruff
+        run: |
+          # Stop the build if Ruff fails, but still allow warnings
+          python -m ruff check . --exit-zero-code
+          python -m ruff format . --check
+
+      - name: Test with Pytest
+        run: |
+          python -m pytest tests/ # Assuming tests are in a 'tests/' directory
+
+      # Example for building a wheel (if applicable)
+      # - name: Build Wheel
+      #   run: python -m build --wheel
+
+      # Example for publishing to PyPI (requires token configuration)
+      # - name: Publish to PyPI
+      #   uses: pypa/gh-action-pypi-publish@release/v1
+      #   with:
+      #     repository-token: ${{ secrets.PYPI_API_TOKEN }}
+      #     packages-dir: dist/
+      #     # If you need to configure testpypi:
+      #     # repository-url: https://test.pypi.org/legacy/
