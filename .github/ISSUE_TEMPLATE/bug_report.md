@@ -1,62 +1,67 @@
 ---
-name: Bug Report
-about: Report an issue found in the Actionsflow Workflow Automation Kit.
-title: "[BUG] - Concise Summary of the Issue"
-labels: [ "bug", "triage/needs-review" ]
-assignees: "chirag127"
+name: "🐛 Bug Report"
+about: Report a defect or an issue that needs fixing in the ActionsFlow template.
+title: "[BUG] Short descriptive title of the issue"
+labels: ["bug", "triage"]
+assignees: ["chirag127"]
+---
+
+### 🚨 Before Opening, Please Read!
+
+-   Ensure you have searched existing issues to avoid duplicates.
+-   Provide clear, concise, and reproducible steps.
+-   Fill out all sections below thoroughly.
 
 ---
 
-## 🐛 Bug Description
+### 🐞 Describe the Bug
 
-Provide a clear and concise description of the bug you encountered. What were you trying to achieve, and what happened instead?
-
-**Expected Behavior:**
-What did you expect to happen when executing the workflow/action?
-
-**Actual Behavior:**
-What actually happened? Include error messages or unexpected output.
+A clear and concise description of what the bug is.
 
 ---
 
-## 🧪 Steps to Reproduce
+### Reproduce Steps
 
-List the steps required to reproduce the behavior from a fresh clone or standard configuration.
+Steps to reproduce the behavior:
 
-1. Clone the repository: `git clone https://github.com/chirag127/Actionsflow-Workflow-Automation-GitHub-Actions-Starter-Kit.git`
-2. Navigate to the relevant example directory (if applicable).
-3. Modify configuration file `[FILE_NAME]` to...
-4. Trigger the workflow by...
-5. Observe the failure at step X.
-
----
-
-## 📋 Environment Details
-
-Specify the context where the bug occurred. This helps immensely in root cause analysis.
-
-*   **Kit Version/Example Used:** (e.g., `v1.0.0` or `examples/rss-to-discord`)
-*   **Actionsflow Version (if specified in your local setup):**
-*   **GitHub Runner:** (e.g., `ubuntu-latest`, `windows-latest`)
-*   **Trigger Source:** (e.g., `Manual Dispatch`, `on:push`, `on:schedule`)
-*   **Relevant External Service:** (e.g., RSS Feed URL, Target Webhook URL, specific third-party API)
+1.  Go to '...'
+2.  Click on '....'
+3.  Scroll down to '....'
+4.  See error
 
 ---
 
-## 🧠 Technical Context (Optional)
+### 🧐 Expected Behavior
 
-If you have insight into *why* this might be happening, please add your analysis here. This aligns with the architectural principles of **DRY** and **SOLID**.
-
-<!-- 
-If you suspect an issue related to YAML parsing, trigger logic, or environment variables, detail it below.
--->
+A clear and concise description of what you expected to happen.
 
 ---
 
-## 📸 Screenshots / Logs
+### 💥 Actual Behavior
 
-If possible, attach relevant logs or screenshots that illustrate the failure. Please ensure sensitive credentials are **BLURRED OR REMOVED**.
+A clear and concise description of what actually happened. Include error messages, logs, or screenshots if relevant.
 
-text
-[PASTE RELEVANT LOG EXCERPTS HERE]
+---
 
+### 📸 Screenshots & Logs (If Applicable)
+
+If applicable, add screenshots, error messages, or console logs to help explain your problem.
+
+---
+
+### 🖥️ Environment
+
+Please provide details about your environment:
+
+*   **Repository URL:** `https://github.com/chirag127/ActionsFlow-Event-Driven-Automation-GitHub-Template` (if applicable, for your fork)
+*   **ActionsFlow Version:** (e.g., `1.x.x` if specified in a workflow or using a specific Action version)
+*   **GitHub Actions Runner:** (e.g., `ubuntu-latest`, `windows-latest`, `macos-latest`)
+*   **Node.js Version (if running Actionsflow locally or a custom action):** (e.g., `v18.x`, `v20.x`)
+*   **Operating System:** (e.g., `macOS Sonoma`, `Windows 11`, `Ubuntu 22.04 LTS`)
+*   **Browser (if relevant to UI issues):** (e.g., `Chrome 120`, `Firefox 121`, `Safari 17`)
+
+---
+
+### 📝 Additional Context
+
+Add any other context about the problem here (e.g., specific workflow configurations, previous attempts to fix, etc.).
