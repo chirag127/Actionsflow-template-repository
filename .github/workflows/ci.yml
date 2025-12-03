@@ -1,58 +1,95 @@
-name: CI
-
-# This workflow will do a compile, test and package, and/or deploy its Python code.
-# More information on GitHub Actions: https://help.github.com/actions
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'feature/**'
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
+      - '*.md'
+  workflow_dispatch:
 
 jobs:
-  build:
+  lint-and-format:
+    name: Lint & Format Codebase
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      # Required for GitHub Actions to create releases
-      # releases: write 
-      # Required for GitHub Actions to publish to PyPI
-      # id-token: write 
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+      - name: Run Super-Linter
+        uses: github/super-linter@v5 # Comprehensive linter for various file types
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_ALL_CODEBASE: true
+          # Specific linters relevant to a GitHub Actions/ActionsFlow template
+          VALIDATE_YAML: true # For GitHub Actions workflows and ActionsFlow definitions
+          VALIDATE_MARKDOWN: true # For READMEs and documentation
+          VALIDATE_JSON: true # For potential ActionsFlow configs or other JSON metadata
+          VALIDATE_BASH: true # For any utility scripts
+          FILTER_REGEX_EXCLUDE: 'docs/|README.md' # Exclude docs and top-level README from linting in this step
+
+  security-scan:
+    name: Security Scan (CodeQL)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # Required for CodeQL to upload results
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
         with:
-          python-version: "3.11"
-          cache: 'uv' # Use uv for caching dependencies
+          languages: 'javascript' # Actionsflow is Node.js based; analyze any potential JS code or configs
 
-      - name: Install Dependencies with uv
+      - name: Autobuild CodeQL Database
+        uses: github/codeql-action/autobuild@v3
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  validate-template-structure:
+    name: Validate ActionsFlow Template Structure
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Verify ActionsFlow Core Directory
         run: |
-          python -m "uv" pip install -U pip
-          python -m "uv" pip install --system --no-deps -e .[dev] # Install project in editable mode with dev dependencies
+          if [ ! -d ".actionsflow" ]; then
+            echo "Error: The .actionsflow/ directory is missing. This is a core requirement for an ActionsFlow template."
+            exit 1
+          fi
+          echo ".actionsflow/ directory found."
 
-      - name: Lint with Ruff
+      - name: Verify Presence of Flow Definitions
         run: |
-          # Stop the build if Ruff fails, but still allow warnings
-          python -m ruff check . --exit-zero-code
-          python -m ruff format . --check
+          find .actionsflow -maxdepth 2 -type f \( -name "*.yml" -o -name "*.yaml" \) | grep -q . || {
+            echo "Error: No YAML flow definition files found within .actionsflow/. At least one flow file is required."
+            exit 1
+          }
+          echo "At least one ActionsFlow YAML definition file found."
 
-      - name: Test with Pytest
+      - name: Validate GitHub Actions Workflows Syntax
         run: |
-          python -m pytest tests/ # Assuming tests are in a 'tests/' directory
-
-      # Example for building a wheel (if applicable)
-      # - name: Build Wheel
-      #   run: python -m build --wheel
-
-      # Example for publishing to PyPI (requires token configuration)
-      # - name: Publish to PyPI
-      #   uses: pypa/gh-action-pypi-publish@release/v1
-      #   with:
-      #     repository-token: ${{ secrets.PYPI_API_TOKEN }}
-      #     packages-dir: dist/
-      #     # If you need to configure testpypi:
-      #     # repository-url: https://test.pypi.org/legacy/
+          echo "Validating GitHub Actions workflow syntax..."
+          for workflow_file in .github/workflows/*.yml; do
+            if [ -f "$workflow_file" ]; then
+              act --detect-event --workflow "$workflow_file" --dry-run || {
+                echo "Error: GitHub Actions workflow '$workflow_file' contains syntax errors."
+                exit 1
+              }
+              echo "GitHub Actions workflow '$workflow_file' syntax is valid."
+            fi
+          done
+          echo "All GitHub Actions workflow files validated successfully."
