@@ -1,49 +1,55 @@
-# Security Policy for Actionsflow-Workflow-Automation-GitHub-Actions-Starter-Kit
+# Security Policy for ActionsFlow-Event-Driven-Automation-GitHub-Template
 
-As the Apex Technical Authority, security is non-negotiable. This repository adheres to the principle of **Secure by Design**, treating every dependency and workflow component as a potential threat vector. This policy outlines how security vulnerabilities are disclosed, reported, and remediated for this professional starter kit.
+This document outlines the security policy and procedures for the `ActionsFlow-Event-Driven-Automation-GitHub-Template` repository. We take security seriously and appreciate the community's efforts in identifying and reporting vulnerabilities.
 
-## 1. Supported Versions
+## 1. Reporting a Vulnerability
 
-This starter kit is maintained to adhere to the **December 2025/2026 Apex Standards**. We actively track and patch vulnerabilities in the following components:
+We encourage responsible disclosure of security vulnerabilities. If you discover a security vulnerability within this project, please report it to us immediately via the GitHub Security Advisory feature.
 
-*   **Actionsflow Core:** Latest stable release.
-*   **GitHub Actions Runtime:** Latest official runner environment.
-*   **Underlying Technology:** Node.js LTS (Current: Node.js 20.x/22.x).
-*   **Configuration:** YAML parsing security standards.
+**How to report:**
 
-For this project, we prioritize patching vulnerabilities impacting the **CI/CD pipeline integrity** and **secret leakage potential** above all else.
+1.  Navigate to the **Security** tab of the `ActionsFlow-Event-Driven-Automation-GitHub-Template` repository: `https://github.com/chirag127/ActionsFlow-Event-Driven-Automation-GitHub-Template/security`
+2.  Click on **"Report a vulnerability"**.
+3.  Fill out the form with the following details:
+    *   A clear and concise description of the vulnerability.
+    *   Steps to reproduce the vulnerability.
+    *   Any potential impact or exploit scenarios.
+    *   Affected versions or configurations (if known).
+    *   If applicable, a proof-of-concept (PoC) or exploit code (please ensure it is safe and non-malicious).
 
-## 2. Vulnerability Reporting
+**What happens after reporting:**
 
-We follow a responsible disclosure model. **DO NOT** file a public GitHub Issue for a security vulnerability.
+*   We will acknowledge receipt of your report within **48 hours**.
+*   We will investigate the vulnerability and determine its severity and impact.
+*   We will keep you informed of our progress and any remediation efforts.
+*   Once the vulnerability is resolved, we will publish a GitHub Security Advisory (GSA) to publicly disclose the issue and credit the reporter (unless anonymity is requested).
 
-If you discover any security vulnerability within `Actionsflow-Workflow-Automation-GitHub-Actions-Starter-Kit` (including transitive dependencies, documentation errors that lead to security exposure, or flawed workflow logic), please follow these steps immediately:
+**Please DO NOT open a public GitHub issue for security vulnerabilities.**
 
-1.  **Email Disclosure:** Send an email detailing the vulnerability, steps to reproduce, and potential impact to the maintainer's designated security contact:
-    *   **Security Contact Email:** `security+actionsflow@chirag127.com` (Hypothetical secure channel).
+## 2. Our Commitment
 
-2.  **Confidentiality:** Please refrain from public discussion (social media, forums) until a fix has been deployed and communicated.
+The maintainers of `ActionsFlow-Event-Driven-Automation-GitHub-Template` are committed to:
 
-3.  **Timeline Expectation:** Maintainers commit to acknowledging receipt of the report within **48 hours** and providing a triage assessment within **5 business days**.
+*   Promptly addressing reported vulnerabilities.
+*   Implementing best practices for secure development and workflow configuration.
+*   Continuously reviewing and updating the security posture of this template.
+*   Ensuring that all dependencies and actions used within the template are regularly audited and updated to their latest secure versions.
 
-## 3. Automated Security Scanning
+## 3. Scope of this Policy
 
-This repository enforces security standards via automated tooling integrated into the `.github/workflows/ci.yml` pipeline:
+This policy applies to the core workflow definitions, Actionsflow configurations, and any associated scripts or files directly within the `ActionsFlow-Event-Driven-Automation-GitHub-Template` repository.
 
-*   **Dependency Auditing:** `npm audit` runs on every pull request to detect known vulnerabilities in Node.js packages.
-*   **Secret Scanning:** GitHub Secret Scanning is enabled to prevent accidental commit of secrets (e.g., GITHUB_TOKEN exposure).
-*   **Static Analysis:** While the core is YAML/Node, any custom scripts integrated will be vetted by the principles defined in the `AGENTS.md` (e.g., input sanitization against OWASP Top 10 principles).
+## 4. Best Practices for Contributors and Users
 
-## 4. Remediation and Disclosure Process
+To maintain a secure environment when utilizing or contributing to this template, we recommend:
 
-Upon receiving a valid vulnerability report:
+*   **Dependency Management:** Regularly review and update all Actionsflow components, GitHub Actions, and any external dependencies to their latest secure versions. Use tools like Dependabot to automate this process.
+*   **Secrets Management:** Never hardcode sensitive information (e.g., API keys, tokens) directly into workflows or repository files. Utilize GitHub Secrets or Actionsflow's secure credential management for all sensitive data.
+*   **Least Privilege:** Configure workflow permissions and access tokens with the principle of least privilege. Grant only the necessary permissions required for the automation to function.
+*   **Code Review:** Thoroughly review all pull requests, especially those that modify workflow definitions (`.github/workflows/` and `actionsflow/` directories), to prevent the introduction of malicious or vulnerable code.
+*   **Input Validation:** Be cautious with external inputs to workflows. Always validate and sanitize inputs to prevent injection attacks or unintended command execution.
+*   **Supply Chain Security:** Be aware of the risks associated with third-party GitHub Actions and Actionsflow sources. Prefer widely-used, well-maintained, and audited components. Pin actions to a full-length commit SHA whenever possible (`actions/checkout@v3` vs `actions/checkout@b4ffde65f46336ab88eb5aea863adc2956f03cb5`).
 
-1.  **Triage:** The core team verifies the report and assigns a severity level (Critical, High, Medium, Low).
-2.  **Patch Development:** A private branch is created to develop and test the fix.
-3.  **Verification:** The fix is verified against the original proof-of-concept provided by the reporter.
-4.  **Deployment:** The patch is merged into the main branch and deployed via the standard CI process.
-5.  **Public Disclosure:** After confirmation that the patch is live and stable, a public announcement will be made via repository release notes. If the vulnerability was significant, a dedicated security advisory may be posted.
+## 5. Security Advisories and Updates
 
---- 
-
-*For compliance with the CC BY-NC 4.0 license, note that this security policy document is subject to architectural review and updates as dictated by the Apex Technical Authority.*
+All security advisories for `ActionsFlow-Event-Driven-Automation-GitHub-Template` will be published on the repository's GitHub Security Advisories page: `https://github.com/chirag127/ActionsFlow-Event-Driven-Automation-GitHub-Template/security/advisories`. We encourage users to subscribe to these advisories to stay informed about critical updates.
