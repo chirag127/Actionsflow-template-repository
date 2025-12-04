@@ -1,55 +1,41 @@
-# Ignore build artifacts and logs
-build/
-dist/
-*.log
-*.tmp
-*.swp
-
-# Ignore IDE and editor specific files
-.idea/
-.vscode/
-*.iml
-*.sublime-project
-*.sublime-workspace
-
-# Ignore operating system files
-.DS_Store
-Thumbs.db
-
-# Ignore Python virtual environment
-venv/
+# Dependency Management (uv/pip)
 .venv/
-env/
-
-# Ignore Python cache and compiled files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Ignore specific Python packages
+__pypackages__/
+.eggs/
 *.egg-info/
-build/
+
+# Build/Distribution Artifacts
 dist/
-wheels/
-*.egg
+build/
+*.spec
 
-# Ignore Node.js dependencies
-node_modules/
-
-# Ignore testing artifacts
+# Test/Coverage Artifacts
 .pytest_cache/
-coverage/
-.coverage
 htmlcov/
+.coverage
 
-# Ignore secrets and environment files (if any)
-.env
-*.env
-secrets.yaml
+# IDE & Editor Files
+.idea/
+*.swp
+*.tmp
+.vscode/
 
-# Ignore documentation artifacts
-docs/_build/
+# Logging and Runtime Data
+*.log
+*.pid
 
-# Ignore GitHub Actions artifacts if any
-.github/workflows/artifacts/
+# GitHub Actions Cache & Artifacts
+.github/workflows/*.lock
+.github/actions_cache/
+
+# Ruff Cache
+.ruff_cache/
+
+# Python Bytecode
+*.pyc
+__pycache__/
+
+# Temporary files
+*~
+# Actionsflow specific files
+.actionsflow-cache/
